@@ -91,15 +91,19 @@ export default function BirthdayApp() {
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
-    const handleEnded = () => {
-      setTimeout(() => { if (audio instanceof HTMLAudioElement) {
-      audio.play().catch(() => {});
-    };
-    if (audio instanceof HTMLAudioElement) {
-    audio.addEventListener("ended", handleEnded);
-    }
-    return () => audio.removeEventListener('ended', handleEnded);
+    if (!(audio instanceof HTMLAudioElement)) return;
+
+const handleEnded = () => {
+  setTimeout(() => {
+    audio.play().catch(() => {});
+  }, 3000);
+};
+
+audio.addEventListener("ended", handleEnded);
+
+return () => {
+  audio.removeEventListener("ended", handleEnded);
+};
   }, []);
 
   useEffect(() => {
