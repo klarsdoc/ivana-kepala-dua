@@ -93,9 +93,12 @@ export default function BirthdayApp() {
     const audio = audioRef.current;
     if (!audio) return;
     const handleEnded = () => {
-      setTimeout(() => { if (audio) audio.play().catch(() => {}); }, 3000);
+      setTimeout(() => { if (audio instanceof HTMLAudioElement) {
+      audio.play().catch(() => {});
     };
-    audio.addEventListener('ended', handleEnded);
+    if (audio instanceof HTMLAudioElement) {
+    audio.addEventListener("ended", handleEnded);
+    }
     return () => audio.removeEventListener('ended', handleEnded);
   }, []);
 
